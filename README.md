@@ -51,8 +51,8 @@
 
   #### Viewing the GRALE request log:
       In [4]: grale.GRALE_LOG.log
-      >>> OrderedDict([
-          ('03db2910-8f19-46a9-8bcc-483968b2d6f1',
+      >>> {
+          '03db2910-8f19-46a9-8bcc-483968b2d6f1',
             {	
               'elapsed_time': '1061.342(ms)',
               'parameters': {'base_url': ['https://someServer/arcgis/rest/services/transportation/MapServer/1/query'],
@@ -67,9 +67,8 @@
               'size': '533583(B)',
               'status': 'Success',
               'utc_timestamp': '2022-08-03T18:51:22.408314'
-            }
-          ),
-          ('6fa266fa-2f95-40f4-adac-b0a9798a6af0',
+            },
+          '6fa266fa-2f95-40f4-adac-b0a9798a6af0',
             {
               'elapsed_time': '998.368(ms)',
               'parameters': {'base_url': ['https://someServer/arcgis/rest/services/transportation/MapServer/1/query'],
@@ -85,9 +84,8 @@
               'size': '400397(B)',
               'status': 'Success',
               'utc_timestamp': '2022-08-03T18:51:22.942478'
-            }
-          ),
-          ('f5f5ef82-03e6-4c68-bf78-9e99a4196145',
+            },
+          'f5f5ef82-03e6-4c68-bf78-9e99a4196145',
             {
               'elapsed_time': '50.531(ms)',
               'parameters': {'base_url': ['https://someServer/arcgis/rest/services/transportation/MapServer/1456/query'],
@@ -103,5 +101,5 @@
               'results': 'ResponseText:{"error":{"code":500,"message":"json","details":[]}}',
               'utc_timestamp': '2022-08-03T18:51:23.568821'
             }
-          )...          
-        ])
+          }...          
+        }
