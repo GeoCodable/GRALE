@@ -3,24 +3,26 @@
   The GRALE module contains functions and classes to standardize requests sent to geospatial REST API's. Response data, metadata capture, and logging information are also standardized to create efficiencies as a preliminary step in ETL workflows that involve geospatial REST API's.  Advanced options are available to optimize speed and memory usage in the extraction phase of ETL workflows. Options include multi-threaded request/response cycles, 'low memory' options in an effort to reduce memory usage/errors and storage capacity required for outputs, in addition to .p12/PFX (pkcs12) support.  Output GeoJSON objects contain two additional keys named 'request_metadata' and 'request_logging'.  These additional keys extend the GeoJSON structure to provide logging information and metadata that can increase efficiencies when used in extract, transform, and load (ETL) workflows.
 
   **Note: Capabilities are limited to get requests on ArcGIS REST API feature and map services at this time.**  
-## General Usage:
+## Quick Start Examples:
   ### Download GeoJson files to a directory:
     In [1]:url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
     In [2]:out_dir = r'D:\downloads'
     In [3]:files = grale.esri_wfs_download(url=url, out_dir=out_dir)
     
   ### Request a list of GeoJSON objects:
-    In [1]:url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
-    In [2]:geojsons = grale.esri_wfs_geojsons(url=url)
-
+    In [4]:url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
+    In [5]:geojsons = grale.esri_wfs_geojsons(url=url)
+    
+  ### View request log data:
+    In [6]:grale.GRALE_LOG.log
+    
 ## Advanced Usage:
 ### Logging:
   The GRALE module uses a logging object to retain request-response cycle information for use in ETL processes.  The logging object retains request information     including parameters/headers, process ID's, and  UTC date-timestamps.  Response metrics include response status, size, and elapsed time. The proces ID serves as the primary key in the logging object and is the unique key that identifies a specific request iteration attempt.  The "ppid" is a "parent process" unique identifier  to which a sub-series of chunked request attempts belong to.  By default, output GeoJSON objects also contain an additional key named 'request_logging'.  This key stores the same logging data, but only for the specific request that returned the GeoJSON results.
   
   For examples, see :  [Log Structure](#log-structure) & [Viewing the GRALE request log](#viewing-the-grale-request-log)
 #### Log Structure:
-    OrderedDict([
-                  {
+                 {
                   'processId':
                       {
                       'ppid':           'parent process UUID for the process', 
@@ -32,7 +34,6 @@
                       'size':           'size of return object/data'
                       }
                   }
-                ])
                 
   ### Basic request:
   #### Perform a paginated, multi-thread get request for all features/records in a service to return a list of GeoJSON objects.
