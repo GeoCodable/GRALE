@@ -13,24 +13,24 @@
   **Note: Capabilities are limited to get requests on ArcGIS REST API feature and map services at this time.**  
 
 ## Logging:
-  The GRALE module uses a logging object to retain request-response cycle information for use in ETL processes.  
-  The logging object retains request information including parameters/headers, process ID's, and  UTC date-timestamps.  
-  Response metrics include response status, size, and elapsed time.  When errrors occur, 
+  The GRALE module uses a logging object to retain request-response cycle information for use in ETL processes.  The logging object retains request information     including parameters/headers, process ID's, and  UTC date-timestamps.  Response metrics include response status, size, and elapsed time. The proces ID serves as the primary key in the logging object and is the unique key that identifies a specific request iteration attempt.  The "ppid" is a "parent process" unique identifier  to which a sub-series of chunked request attempts belong to.
   
+  For examples, see:  [Log Structure](#log-structure) & [Viewing the GRALE request log](#viewing-the-grale-request-log)
+### Log Structure:  
             {
-            'process UUID':
+            'processId':
                 {
-                'ppid': 'parent process UUID for the process', 
-                'utc_timestamp': 'UTC start timestamp of the request/iteration', 
-                'parameters': 'parameters sent to an request/iteration',   
-                'status' : 'status category of an request/iteration','  
-                'results': 'detailed messages of an request/iteration',
-                'elapsed_time': 'total time to run an request/iteration',
-                'size': 'size of request/iteration return object'
+                'ppid':           'parent process UUID for the process', 
+                'utc_timestamp':  'UTC start timestamp of a request instance', 
+                'parameters':     'parameters sent to a request instance',   
+                'status':         'status category for a request instance','  
+                'results':        'detailed messages for a request instance',
+                'elapsed_time':   'elapsed time to complete the request instance',
+                'size':           'size of return object/data'
                 }
             }
 ## Example Usage:
-  ### Basic ArcGIS REST Feature Service Request:
+  ### Basic ArcGIS REST feature service request:
   #### Perform a basic multi-threaded get request for all features/records in a service and return a list of GeoJSON objects.
       In [1]: import grale
       In [2]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
@@ -45,7 +45,7 @@
       >>> Returned: 3050 out of 3050 features
 
 
-  #### View the GRALE Request Log data:
+  #### Viewing the GRALE request log:
       In [4]: grale.GRALE_LOG.log
       >>> OrderedDict([
           ('03db2910-8f19-46a9-8bcc-483968b2d6f1',
