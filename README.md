@@ -12,6 +12,23 @@
 
   **Note: Capabilities are limited to get requests on ArcGIS REST API feature and map services at this time.**  
 
+## Logging:
+  The GRALE module uses a logging object to retain request-response cycle information for use in ETL processes.  
+  The logging object retains request information including parameters/headers, process ID's, and  UTC date-timestamps.  
+  Response metrics include response status, size, and elapsed time.  When errrors occur, 
+  
+            {
+            'process UUID':
+                {
+                'ppid': 'parent process UUID for the process', 
+                'utc_timestamp': 'UTC start timestamp of the request/iteration', 
+                'parameters': 'parameters sent to an request/iteration',   
+                'status' : 'status category of an request/iteration','  
+                'results': 'detailed messages of an request/iteration',
+                'elapsed_time': 'total time to run an request/iteration',
+                'size': 'size of request/iteration return object'
+                }
+            }
 ## Example Usage:
   ### Basic ArcGIS REST Feature Service Request:
   #### Perform a basic multi-threaded get request for all features/records in a service and return a list of GeoJSON objects.
@@ -65,5 +82,22 @@
               'status': 'Success',
               'utc_timestamp': '2022-08-03T18:51:22.942478'
             }
-          )...
+          ),
+          ('f5f5ef82-03e6-4c68-bf78-9e99a4196145',
+            {
+              'elapsed_time': '50.531(ms)',
+              'parameters': {'base_url': ['https://someServer/arcgis/rest/services/transportation/MapServer/1456/query'],
+                      'f': ['JSON'],
+                      'outFields': ['*'],
+                      'outSR': ['4326'],
+                      'resultOffset': ['0'],
+                      'where': ['1=1']},
+              'ppid': '818aeb1e-4910-4c9a-bf8a-68da43061aac',
+              'request': 'https://someServer/arcgis/rest/services/transportation/MapServer/1456/query?where=...',
+              'size': '52(B)',
+              'status': 'Error: (Unidentified)',
+              'results': 'ResponseText:{"error":{"code":500,"message":"json","details":[]}}',
+              'utc_timestamp': '2022-08-03T18:51:23.568821'
+            }
+          )...          
         ])
