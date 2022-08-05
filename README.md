@@ -25,7 +25,7 @@
     
 ## Advanced Usage:
 
-### Data Requests:
+### Feature Data Requests:
   #### Return a list of json objects or when low_memory=True, compressed (gzip) temp file paths.
 
     In [1]: log = grale.GraleReqestLog()  #initiate a new request log object (optional)
