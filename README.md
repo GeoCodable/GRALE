@@ -29,7 +29,7 @@
   #### Return a list of json objects or when low_memory=True, compressed (gzip) temp file paths.
 
     In [1]: log = grale.GraleReqestLog()  #initiate a new request log object (optional)
-    In [2]: url = r'https://cartowfs.nationalmap.gov/arcgis/rest/services/transportation/MapServer/1'
+    In [2]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
     In [3]: headers = {
                       'outSR':4326,           # set the ouptut spatial reference to WGS-84
                       'resultOffset': 7000,   # skip the first 6999 records
@@ -42,7 +42,7 @@
                                                 low_memory=False)   # False, return a list of GeoJSON objects, optional
                                                 
   #### Download the GeoJSON to geojson files or when low_memory=True, compressed (gzip) files returning a list of file paths.
-    In [1]: url = r'https://cartowfs.nationalmap.gov/arcgis/rest/services/transportation/MapServer/2'
+    In [1]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/2'
     In [2]: headers = {
                         'outSR':4326,           # set the ouptut spatial reference to WGS-84
                        }
@@ -50,9 +50,9 @@
     In [4]: files = grale.esri_wfs_download( url=url,           # request url, required
                                             out_dir=out_dir,    # select an ouptput directory, required   
                                             headers=headers,    # request query parameters, optional
-                                            log=None,           # Default to grale.GRALE_LOG.log, optional
-                                            chunk_size=None,    # Default to service max allowed request size, optional
-                                            max_workers=None,   # Default (Python 3.5+) # of processors on the machine X by 5, optional
+                                            log=None,           # default to grale.GRALE_LOG.log, optional
+                                            chunk_size=None,    # default to service max allowed request size, optional
+                                            max_workers=None,   # default (Python 3.5+) # of processors on the machine X by 5, optional
                                             low_memory=False,   # True, output compressed GEOJSON files, optional
                                             cleanup=True)       # True, clean up low memory temp files 
     In [5]: grale.GRALE_LOG.log   # view the request/result log
@@ -86,6 +86,7 @@
                       'outFields': ['*'],
                       'outSR': ['4326'],
                       'resultOffset': ['17000'],
+                      'resultRecordCount': ['1000'],
                       'where': ['1=1']},
               'process_id': '690594ca-d724-409e-a4e9-10ddd450b5a2',
               'request': 'https://someServer/arcgis/rest/services/transportation/MapServer/1/query?where=...',
@@ -119,6 +120,7 @@
                       'outFields': ['*'],
                       'outSR': ['4326'],
                       'resultOffset': ['0'],
+                      'resultRecordCount': ['3000'],
                       'where': ['1=1']},
               'ppid': '818aeb1e-4910-4c9a-bf8a-68da43061aac',
               'request': 'https://someServer/arcgis/rest/services/transportation/MapServer/1456/query?where=...',
