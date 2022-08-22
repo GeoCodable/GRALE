@@ -6,31 +6,43 @@
   
 ## Quick Start Examples:
 
-  ### Import:  
-    In [1]:import grale
+  ### Import:
+  
+  ```python
+    In [1]: import grale
+  ```
+  
   ### Basic Data Requests:  
     
   ### Download GeoJson files to a directory:
   ***Perform a paginated, multi-threaded request for all features/records, return a list of output files***
+
+  ```python
+    In [2]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
+    In [3]: out_dir = r'D:\downloads'
+    In [4]: files = grale.esri.get_wfs_download(url=url, out_dir=out_dir)
+  ```
   
-    In [2]:url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
-    In [3]:out_dir = r'D:\downloads'
-    In [4]:files = grale.esri.get_wfs_download(url=url, out_dir=out_dir)
-    
   ### Get a list of GeoJSON objects:
   ***Perform a paginated, multi-threaded request for all features/records, return a list of output GeoJSON objects***
+
+  ```python
+    In [5]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
+    In [6]: geojsons = grale.esri.get_wfs_geojsons(url=url)
+  ```
   
-    In [5]:url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
-    In [6]:geojsons = grale.esri.get_wfs_geojsons(url=url)
-    
   ### View request log data:
+  
+  ```python
     In [7]:grale.GRALE_LOG.log
+  ```
     
 ## Advanced Usage:
 
 ### Feature Data Requests:
   #### Return a list of json objects or when low_memory=True, compressed (gzip) temp file paths.
 
+    ```python
     In [1]: log = grale.GraleReqestLog()  #initiate a new request log object (optional)
     In [2]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
     In [3]: headers = {
@@ -43,8 +55,13 @@
                                                     chunk_size=750,     # max chunk size/ record count per pull, optional
                                                     max_workers=4,      # max number threads to run in parallel, optional
                                                     low_memory=False)   # False, return a list of GeoJSON objects, optional
-                                                
+    In [5]: df = grale.geojsons_to_df( geojsons,                        # create a single pandas dataframe from the list of GeoJSONs
+                                       df_type='DataFrame')     
+    ```
+    
   #### Download the GeoJSON to geojson files or when low_memory=True, compressed (gzip) files returning a list of file paths.
+  
+  ```python
     In [1]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/2'
     In [2]: headers = {
                         'outSR':4326,           # set the ouptut spatial reference to WGS-84
@@ -59,28 +76,49 @@
                                                   low_memory=False,   # True, output compressed GEOJSON files, optional
                                                   cleanup=True)       # True, clean up low memory temp files 
     In [5]: grale.GRALE_LOG.log   # view the request/result log
+    In [6]: gdf = grale.geojsons_to_df( files,                        # create a single geopandas dataframe from the list of GeoJSON files
+                                        df_type='GeoDataFrame') 
+  ```
+  
+### Other grale.esri methods:
+  Use the python help() function for detailed documentation on each method. 
+    * Ex. In [1]: help(grale.merge_geojsons)
+  * **_merge_geojsons_**
+    * merges a list of grale geojson objects into a single output geojson object including the [data lineage](#geojson-data-lineage) keys.   
+  * **_read_geojson_**
+    * Loads a GeoJSON object or given a file path, a gzip or GeoJSON and retruns a python JSON object/dictionary
+  * **_read_geojsons_**
+    * Loads a a list of GeoJSON objects, gzip files, or GeoJSON files and retruns a list of python JSON objects/dictionaries
+  * **_merge_geojsons_**
+    * merges a list of grale geojson objectsinto a single output geojson object including the ['request_metadata' and 'request_logging'](#geojson-data-lineage) keys.
     
 ### Logging:
   The GRALE module uses a logging object to retain request-response cycle information for use in ETL processes.  The logging object retains request information     including parameters/headers, process ID's, and  UTC date-timestamps.  Response metrics include response status, size, and elapsed time. The proces ID serves as the primary key in the logging object and is the unique key that identifies a specific request iteration attempt.  The "ppid" is a "parent process" unique identifier  to which a sub-series of chunked request attempts belong to.  By default, output GeoJSON objects also contain an additional key named 'request_logging'.  This key stores the same logging data, but only for the specific request that returned the GeoJSON results.
   
   For examples, see :  [Log Structure](#log-structure) & [Viewing the GRALE request log](#viewing-the-grale-request-log)
+  
 #### Log Structure:
-                 {
-                  'processId': 'unique process ID for the request iteration (per chunk)',
-                      {
-                      'grale_uuid':     'GRALE full ID, concat of the of the ppid  & pid'
-                      'ppid':           'unique parent process ID for an iterated request(per data source)', 
-                      'pid':            'unique process ID for the request iteration (per chunk)', 
-                      'utc_timestamp':  'UTC start timestamp of a request instance', 
-                      'parameters':     'parameters sent to a request instance',   
-                      'status':         'status category for a request instance','  
-                      'results':        ['list of detailed response messages/results'],
-                      'elapsed_time':   'elapsed time to complete the request instance',
-                      'size':           'size of return object/data'
-                      }
-                  }
-                
+
+  ```json
+       {
+        "processId": 
+            {
+            "grale_uuid":     "GRALE full ID, concat of the of the ppid  & pid",
+            "ppid":           "unique parent process ID for an iterated request(per data source)", 
+            "pid":            "unique process ID for the request iteration (per chunk)", 
+            "utc_timestamp":  "UTC start timestamp of a request instance", 
+            "parameters":     "parameters sent to a request instance",   
+            "status":         "status category for a request instance",  
+            "results":        ["list of detailed response messages/results"],
+            "elapsed_time":   "elapsed time to complete the request instance",
+            "size":           "size of return object/data"
+            }
+        }
+  ```
+    
+  
   #### Viewing the GRALE request log:
+  ```python
       In [4]: grale.GRALE_LOG.log
       >>> {
           '03db2910-8f19-46a9-8bcc-483968b2d6f1',
@@ -122,8 +160,8 @@
               'size': '52(B)',
             }, ...
           }
-
-  #### Data lineage within output GeoJSON/JSON structure:
+  ```
+  #### GeoJSON Data lineage:
   GRALE functions which return data to memory or files employs a modified GeoJSON structure consisting of two additional keys/tags. 
   In addition, two feature level keys are added to all output columns (**_"grale_utc"_** & **_"grale_uuid"_**) to retain the ability to track data lineage. 
     
@@ -140,9 +178,40 @@
         * Usage and copyright limits
           
   #### GeoJSON/JSON top level structure:
+  
+  ```json
     {
       "type": "FeatureCollection",
-      "features": [].
+      "features": [],
       "request_logging": [],
       "request_metadata":[],
     }
+  ```
+
+### Custom requests sessions:
+  * GRALE_SESSION:
+    * The GRALE module offers the 'GRALE_SESSION' object as the default python requests session.   This default object is created at import as an isntance of grale.sessionWrapper which serves as a object used to customize parameters of request sessions, retries, and requests_pkcs12. 
+  * sessionWrapper:
+    * Class constructor builds a wrapper around all standard request session, retry, and get parameters along with .p12/PFX support 
+    (when credentials are supplied). All request session, retry, get, and requests_pkcs12 parameters can be set when initializing a sessionWrapper object or by redefining the properties. 
+Use the python help() function for detailed documentation on all avilable properties. 
+  * Ex. In [1]: help(grale.sessionWrapper)  
+
+#### Examples:
+  
+  Setting GRALE_SESSION properties using [DataBricks Secrets](https://docs.databricks.com/dev-tools/databricks-utils.html#dbutils-secrets):
+  
+  ```python
+    In [1]: grale.GRALE_SESSION.timeout = (5,30)
+    In [2]: grale.GRALE_SESSION.pkcs12_filename = dbutils.secrets.get(scope="secrets-scope", key="myCert") 
+    In [3]: grale.GRALE_SESSION.pkcs12_password = dbutils.secrets.get(scope="secrets-scope", key="myPswd") 
+    In [5]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
+    In [6]: geojsons = grale.esri.get_wfs_geojsons(url=url)
+  ```
+  Creating a new custom session:
+  
+  ```python
+    In [1]: grale.GRALE_SESSION = grale.sessionWrapper(timeout = (120), max_retries=10)
+    In [2]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
+    In [3]: geojsons = grale.esri.get_wfs_geojsons(url=url)
+  ```
