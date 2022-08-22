@@ -1,4 +1,5 @@
 # GRALE - Geospatial Request And Log Extraction
+
 ## Description:
   The GRALE module contains functions and classes to standardize requests sent to geospatial REST API's. Response data, metadata capture, and logging information are also standardized to create efficiencies as a preliminary step in ETL workflows that involve geospatial REST API's.  Advanced options are available to optimize speed and memory usage in the extraction phase of ETL workflows. Options include multi-threaded request/response cycles, 'low memory' options in an effort to reduce memory usage/errors and storage capacity required for outputs, in addition to .p12/PFX (pkcs12) support.  Output GeoJSON objects contain two additional keys named 'request_metadata' and 'request_logging'.  These additional keys extend the GeoJSON structure to provide logging information and metadata that can increase efficiencies when used as part of a larger extract, transform, and load (ETL) workflow.
 
@@ -14,7 +15,7 @@
   
   ### Basic Data Requests:  
     
-  ### Download GeoJson files to a directory:
+  ### Download GeoJSON files to a directory:
   ***Perform a paginated, multi-threaded request for all features/records, return a list of output files***
 
   ```python
@@ -46,7 +47,7 @@
     In [1]: log = grale.GraleReqestLog()  #initiate a new request log object (optional)
     In [2]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
     In [3]: headers = {
-                      'outSR':4326,           # set the ouptut spatial reference to WGS-84
+                      'outSR':4326,           # set the output spatial reference to WGS-84
                       'resultOffset': 7000,   # skip over requesting the first 6999 records
                       }
     In [4]: geojsons = grale.esri.get_wfs_geojsons( url=url,            # request url, required
@@ -64,11 +65,11 @@
   ```python
     In [1]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/2'
     In [2]: headers = {
-                        'outSR':4326,           # set the ouptut spatial reference to WGS-84
+                        'outSR':4326,           # set the output spatial reference to WGS-84
                        }
     In [3]: out_dir = r'D:\downloads'
     In [4]: files = grale.esri.get_wfs_download(  url=url,            # request url, required
-                                                  out_dir=out_dir,    # select an ouptput directory, required   
+                                                  out_dir=out_dir,    # select an output directory, required   
                                                   headers=headers,    # request query parameters, optional
                                                   log=None,           # default to grale.GRALE_LOG.log, optional
                                                   chunk_size=None,    # default to service max allowed request size, optional
@@ -86,16 +87,16 @@
   * **_merge_geojsons_**
     * merges a list of grale geojson objects into a single output geojson object including the [data lineage](#geojson-data-lineage) keys.   
   * **_read_geojson_**
-    * Loads a GeoJSON object or given a file path, a gzip or GeoJSON and retruns a python JSON object/dictionary
+    * Loads a GeoJSON object or given a file path, a gzip or GeoJSON and returns a python JSON object/dictionary
   * **_read_geojsons_**
-    * Loads a a list of GeoJSON objects, gzip files, or GeoJSON files and retruns a list of python JSON objects/dictionaries
+    * Loads a list of GeoJSON objects, gzip files, or GeoJSON files and returns a list of python JSON objects/dictionaries
   * **_merge_geojsons_**
-    * merges a list of grale geojson objectsinto a single output geojson object including the ['request_metadata' and 'request_logging'](#geojson-data-lineage) keys.
+    * merges a list of grale geojson objects into a single output geojson object including the ['request_metadata' and 'request_logging'](#geojson-data-lineage) keys.
     
 ### Logging:
-  The GRALE module uses a logging object to retain request-response cycle information for use in ETL processes.  The logging object retains request information     including parameters/headers, process ID's, and  UTC date-timestamps.  Response metrics include response status, size, and elapsed time. The proces ID serves as the primary key in the logging object and is the unique key that identifies a specific request iteration attempt.  The "ppid" is a "parent process" unique identifier  to which a sub-series of chunked request attempts belong to.  By default, output GeoJSON objects also contain an additional key named 'request_logging'.  This key stores the same logging data, but only for the specific request that returned the GeoJSON results.
+  The GRALE module uses a logging object to retain request-response cycle information for use in ETL processes.  The logging object retains request information     including parameters/headers, process ID's, and  UTC date-timestamps.  Response metrics include response status, size, and elapsed time. The process ID serves as the primary key in the logging object and is the unique key that identifies a specific request iteration attempt.  The "ppid" is a "parent process" unique identifier to which a sub-series of chunked request attempts belong to.  By default, output GeoJSON objects also contain an additional key named 'request_logging'.  This key retains the same logging data, but only for the specific request that returned the GeoJSON results.
   
-  For examples, see :  [Log Structure](#log-structure) & [Viewing the GRALE request log](#viewing-the-grale-request-log)
+  For examples, see:  [Log Structure](#log-structure) & [Viewing the GRALE request log](#viewing-the-grale-request-log)
   
 #### Log Structure:
 
@@ -166,14 +167,14 @@
   In addition, two feature level keys are added to all output columns (**_"grale_utc"_** & **_"grale_uuid"_**) to retain the ability to track data lineage. 
     
   * Appended metadata and logging GeoJSON keys are:
-     * 'request_logging' which reatains a list of logging data associated with the returned data from each request.
+     * 'request_logging' which retains a list of logging data associated with the returned data from each request.
       * Can be **_joined_** to feature data records via the **_'grale_uuid'_**
      * 'request_metadata' which contains a list of the full ESRI data source metadata.
       * Can be **_joined_** to feature data records and request_logging via the **_'ppid'_**
       * The ESRI REST Metadata includes, but is NOT limited to
         * columns names, aliases, and data types
         * allowed value known as domains
-        * spatial refernce information
+        * spatial reference information
         * Geometry types (point, line, polygon...)
         * Usage and copyright limits
           
@@ -190,11 +191,11 @@
 
 ### Custom requests sessions:
   * GRALE_SESSION:
-    * The GRALE module offers the 'GRALE_SESSION' object as the default python requests session.   This default object is created at import as an isntance of grale.sessionWrapper which serves as a object used to customize parameters of request sessions, retries, and requests_pkcs12. 
+    * The GRALE module offers the 'GRALE_SESSION' object as the default python requests session.   This default object is created at import as an instance of grale.sessionWrapper which serves as a object used to customize parameters of request sessions, retries, and requests_pkcs12. 
   * sessionWrapper:
     * Class constructor builds a wrapper around all standard request session, retry, and get parameters along with .p12/PFX support 
     (when credentials are supplied). All request session, retry, get, and requests_pkcs12 parameters can be set when initializing a sessionWrapper object or by redefining the properties. 
-Use the python help() function for detailed documentation on all avilable properties. 
+Use the python help() function for detailed documentation on all available properties. 
   * Ex. In [1]: help(grale.sessionWrapper)  
 
 #### Examples:
