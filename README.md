@@ -122,3 +122,27 @@
               'size': '52(B)',
             }, ...
           }
+
+  #### Data lineage within output GeoJSON/JSON structure:
+  GRALE functions which return data to memory or files employs a modified GeoJSON structure consisting of two additional keys/tags. 
+  In addition, two feature level keys are added to all output columns (**_"grale_utc"_** & **_"grale_uuid"_**) to retain the ability to track data lineage. 
+    
+  * Appended metadata and logging GeoJSON keys are:
+     * 'request_logging' which reatains a list of logging data associated with the returned data from each request.
+      * Can be **_joined_** to feature data records via the **_'grale_uuid'_**
+     * 'request_metadata' which contains a list of the full ESRI data source metadata.
+      * Can be **_joined_** to feature data records and request_logging via the **_'ppid'_**
+      * The ESRI REST Metadata includes, but is NOT limited to
+        * columns names, aliases, and data types
+        * allowed value known as domains
+        * spatial refernce information
+        * Geometry types (point, line, polygon...)
+        * Usage and copyright limits
+          
+  #### GeoJSON/JSON top level structure:
+    {
+      "type": "FeatureCollection",
+      "features": [].
+      "request_logging": [],
+      "request_metadata":[],
+    }
