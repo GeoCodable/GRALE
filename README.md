@@ -5,7 +5,7 @@
   * [Logging and data lineage](#logging-and-data-lineage)
   * [Custom requests sessions](#custom-requests-sessions)
   * [Profiling ArcGIS REST API's](#profiling-arcgis-rest-apis)
-  * [Other grale.esri methods](#other-grale.esri-methods)
+  * [Other grale.esri methods](#other-graleesri-methods)
 
 
 ## Description:
