@@ -1,22 +1,27 @@
 # GRALE - Geospatial Request And Log Extraction
+## Main Sections:
+  * [Description](#description)
+  * [Quick Start](#quick-start)
+
 
 ## Description:
   The GRALE module contains functions and classes to standardize requests sent to geospatial REST API's. Response data, metadata capture, and logging information are also standardized to create efficiencies as a preliminary step in ETL workflows that involve geospatial REST API's.  Advanced options are available to optimize speed and memory usage in the extraction phase of ETL workflows. Options include multi-threaded request/response cycles, 'low memory' options in an effort to reduce memory usage/errors and storage capacity required for outputs, in addition to .p12/PFX (pkcs12) support.  Output GeoJSON objects contain two additional keys named 'request_metadata' and 'request_logging'.  These additional keys extend the GeoJSON structure to provide logging information and metadata that can increase efficiencies when used as part of a larger extract, transform, and load (ETL) workflow.
 
   ***Note: Capabilities are limited to get requests on ArcGIS REST API feature and map services at this time.*** 
-  
-## Quick Start Examples:
 
-  ### Import:
+## Quick Start
+
+### Import:
   
   ```python
     In [1]: import grale
   ```
   
-  ### Basic Data Requests:  
+### Simple Feature Requests:
     
-  ### Download GeoJSON files to a directory:
-  ***Perform a paginated, multi-threaded request for all features/records, return a list of output files***
+  #### Download GeoJSON files to a directory:
+  
+  _Perform a paginated, multi-threaded request for all features/records, return a list of output files_
 
   ```python
     In [2]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
@@ -24,24 +29,51 @@
     In [4]: files = grale.esri.get_wfs_download(url=url, out_dir=out_dir)
   ```
   
-  ### Get a list of GeoJSON objects:
-  ***Perform a paginated, multi-threaded request for all features/records, return a list of output GeoJSON objects***
+  #### Get a list of GeoJSON objects:
+  
+  _Perform a paginated, multi-threaded request for all features/records, return a list of output GeoJSON objects_
 
   ```python
     In [5]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
     In [6]: geojsons = grale.esri.get_wfs_geojsons(url=url)
   ```
   
-  ### View request log data:
+  View request log data:
   
   ```python
     In [7]:grale.GRALE_LOG.log
   ```
     
-## Advanced Usage:
+### Advanced Feature Requests:
 
-### Feature Data Requests:
-  #### Return a list of json objects or when low_memory=True, compressed (gzip) temp file paths.
+  #### Download GeoJSON files to a directory:
+  
+    * Conserve memmory and compress (gzip) results by uising low_memory=True
+    * Set the max records size to 500 for each request/output file
+  
+  ```python
+    In [1]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/2'
+    In [2]: headers = {
+                        'outSR':4326,           # set the output spatial reference to WGS-84
+                       }
+    In [3]: out_dir = r'D:\downloads'
+    In [4]: files = grale.esri.get_wfs_download(  url=url,            # request url, required
+                                                  out_dir=out_dir,    # select an output directory, required   
+                                                  headers=headers,    # request query parameters, optional
+                                                  log=None,           # default to grale.GRALE_LOG.log, optional
+                                                  chunk_size=500,     # max of request 500 records or the API max request size, optional
+                                                  max_workers=None,   # default (Python 3.5+) # of processors on the machine X by 5, optional
+                                                  low_memory=False,   # True, output compressed GEOJSON files, optional
+                                                  cleanup=True)       # True, clean up low memory temp files 
+    In [5]: grale.GRALE_LOG.log   # view the request/result log
+    In [6]: gdf = grale.geojsons_to_df( files,                        # create a single geopandas dataframe from the list of GeoJSON files
+                                        df_type='GeoDataFrame') 
+  ```
+  
+   #### Get a list of GeoJSON objects:
+   
+    * Set the max records size to 750 for each request/output file
+    * Allow up to 4 threads.
 
     ```python
     In [1]: log = grale.GraleReqestLog()  #initiate a new request log object (optional)
@@ -59,27 +91,8 @@
     In [5]: df = grale.geojsons_to_df( geojsons,                        # create a single pandas dataframe from the list of GeoJSONs
                                        df_type='DataFrame')     
     ```
-    
-  #### Download the GeoJSON to geojson files or when low_memory=True, compressed (gzip) files returning a list of file paths.
   
-  ```python
-    In [1]: url = r'https://someServer/arcgis/rest/services/transportation/MapServer/2'
-    In [2]: headers = {
-                        'outSR':4326,           # set the output spatial reference to WGS-84
-                       }
-    In [3]: out_dir = r'D:\downloads'
-    In [4]: files = grale.esri.get_wfs_download(  url=url,            # request url, required
-                                                  out_dir=out_dir,    # select an output directory, required   
-                                                  headers=headers,    # request query parameters, optional
-                                                  log=None,           # default to grale.GRALE_LOG.log, optional
-                                                  chunk_size=None,    # default to service max allowed request size, optional
-                                                  max_workers=None,   # default (Python 3.5+) # of processors on the machine X by 5, optional
-                                                  low_memory=False,   # True, output compressed GEOJSON files, optional
-                                                  cleanup=True)       # True, clean up low memory temp files 
-    In [5]: grale.GRALE_LOG.log   # view the request/result log
-    In [6]: gdf = grale.geojsons_to_df( files,                        # create a single geopandas dataframe from the list of GeoJSON files
-                                        df_type='GeoDataFrame') 
-  ```
+
   
 ### Other grale.esri methods:
   Use the python help() function for detailed documentation on each method. 
