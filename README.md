@@ -243,7 +243,7 @@ Query an ArcGIS REST by service type(s) and within a named subdirectory to retur
                                         log=None,
                                         showMessages=True, 
                                         dirs=dirs)
-     print(json.dumps(sd, indent=4)) # pretty print the resutls
+     print(json.dumps(sd, indent=4)) # pretty print the results
      >>> {
           "https://someServer/arcgis/rest/services/airfields/catalog/MapServer": {
               "currentVersion": 10.61,
@@ -263,7 +263,7 @@ Query data sources (features classes/layers) within the services definition dict
 
   ```python
      ds = grale.esri.get_rest_data_sources(sd)
-     print(json.dumps(ds, indent=4)) # pretty print the resutls
+     print(json.dumps(ds, indent=4)) # pretty print the results
      >>>{
          "https://someServer/arcgis/rest/services/airfields/catalog/MapServer/0": {
              "id": 0,
@@ -285,14 +285,14 @@ Query data sources (features classes/layers) within the services definition dict
 
 ### Get data source metadata and schema:
 
-Get the full metadata and schema for each data source (features classe/layer) in the data-sources definition dictionary (ds). The return dictionary includes top level keys (data source URL's) with nested key value pairs that represent the full data source structure, properties, and metadata. 
+Get the full metadata and schema for each data source (features class/layer) in the data-sources definition dictionary (ds). The return dictionary includes top level keys (data source URL's) with nested key value pairs that represent the full data source structure, properties, and metadata. 
 
   ```python
      ds_defs = grale.esri.get_rest_data_source_defs( ds,
                                                      log=log2, 
                                                      showMessages=False
                                                    )
-     print(json.dumps(ds_defs, indent=4)) # pretty print the resutls                                    
+     print(json.dumps(ds_defs, indent=4)) # pretty print the results                                    
      >>>{
           "https://someServer/arcgis/rest/services/airfields/catalog/MapServer/0": {
               "id": 0,
