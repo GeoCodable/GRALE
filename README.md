@@ -4,6 +4,9 @@
   * [Quick Start](#quick-start)
   * [Logging and data lineage](#logging-and-data-lineage)
   * [Custom requests sessions](#custom-requests-sessions)
+  * [Profiling ArcGIS REST API's](#profiling-arcgis-rest-apis)
+  * [Other grale.esri methods](#other-grale.esri-methods)
+
 
 ## Description:
   The GRALE module contains functions and classes to standardize requests sent to geospatial REST API's. Response data, metadata capture, and logging information are also standardized to create efficiencies as a preliminary step in ETL workflows that involve geospatial REST API's.  Advanced options are available to optimize speed and memory usage in the extraction phase of ETL workflows. Options include multi-threaded request/response cycles, 'low memory' options in an effort to reduce memory usage/errors and storage capacity required for outputs, in addition to .p12/PFX (pkcs12) support.  Output GeoJSON objects contain two additional keys named 'request_metadata' and 'request_logging'.  These additional keys extend the GeoJSON structure to provide logging information and metadata that can increase efficiencies when used as part of a larger extract, transform, and load (ETL) workflow.
@@ -221,7 +224,9 @@
     geojsons = grale.esri.get_wfs_geojsons(url=url)
   ```
 
-  
+## Profiling ArcGIS REST API's
+
+
 ## Other grale.esri methods:
   Use the python help() function for detailed documentation on each method. 
   
