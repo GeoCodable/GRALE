@@ -11,9 +11,9 @@
 
 ## Description:
 
-  The GRALE module contains functions and classes to standardize requests sent to geospatial REST API's. Response data, metadata capture, and logging information are also standardized to create efficiencies as a preliminary step in ETL workflows that involve geospatial REST API's.  Advanced options are available to optimize speed and memory usage in the extraction phase of ETL workflows. Options include multi-threaded request/response cycles, 'low memory' options in an effort to reduce memory usage/errors and storage capacity required for outputs, in addition to .p12/PFX (pkcs12) support.  Output GeoJSON objects contain two additional keys named 'request_metadata' and 'request_logging'.  These additional keys extend the GeoJSON structure to provide logging information and metadata that can increase efficiencies when used as part of a larger extract, transform, and load (ETL) workflow.
+   The GRALE module contains functions and classes to standardize requests sent to geospatial REST API's. Response data, metadata capture, and logging information are also standardized to create efficiencies as a preliminary step in ETL workflows that involve geospatial REST API's.  Advanced options are available to optimize speed and memory usage in the extraction phase of ETL workflows. Options include multi-threaded request/response cycles, 'low memory' options in an effort to reduce memory usage/errors and storage capacity required for outputs, in addition to .p12/PFX (pkcs12) support.  Output GeoJSON objects contain two additional keys named 'request_metadata' and 'request_logging'.  These additional keys extend the GeoJSON structure to provide logging information and metadata that can increase efficiencies when used as part of a larger extract, transform, and load (ETL) workflow.
 
-  ***Note: Capabilities are limited to get requests on ArcGIS REST API feature and map services at this time.*** 
+   ***Note: Capabilities are limited to get requests on ArcGIS REST API feature and map services at this time.*** 
 
 ## Quick Start
 
@@ -228,7 +228,100 @@
 
 ## Profiling ArcGIS REST API's
 
+### Get the services definition dictionary:
 
+Query an ArcGIS REST by service type(s) and within a named subdirectory to return a service definition. The return dictionary includes top level keys (service URL's) with nested key value pairs that represent the service level properties. 
+
+  ```python
+     url = r'https://someServer/arcgis/rest'
+     service_types = ['MapServer','FeatureServer']   # set the ArcGIS server types to query, use an empty list to query all types 
+     dirs = ['airfields']                            # list the subdirectory(s), use an empty list to query the entire the server
+
+     store the services definition dictionary within sd
+     sd = grale.esri.get_rest_services( url=url, 
+                                        service_types=service_types, 
+                                        log=None,
+                                        showMessages=True, 
+                                        dirs=dirs)
+     print(json.dumps(sd, indent=4)) # pretty print the resutls
+     >>> {
+          "https://someServer/arcgis/rest/services/airfields/catalog/MapServer": {
+              "currentVersion": 10.61,
+              "cimVersion": "2.2.0",
+              "serviceDescription": "Airfields Catalog (Civil)",
+              "mapName": "catalog",
+              "description": "Airfields Catalog (Airstrip)",
+              "copyrightText": "Some Org",
+              "supportsDynamicLayers": true, ...
+              }, ...
+          }
+  ```
+
+### Get the data-sources definition dictionary:
+
+Query data sources (features classes/layers) within the services definition dictionary (sd). The return dictionary includes top level keys (data source URL's) with nested key value pairs that represent the data source level properties. 
+
+  ```python
+     ds = grale.esri.get_rest_data_sources(sd)
+     print(json.dumps(ds, indent=4)) # pretty print the resutls
+     >>>{
+         "https://someServer/arcgis/rest/services/airfields/catalog/MapServer/0": {
+             "id": 0,
+             "name": "Airfields - (Civil)",
+             "parentLayerId": -1,
+             "defaultVisibility": true,
+             "subLayerIds": null,
+             "minScale": 2400000,
+             "maxScale": 0
+             "geometryType": 'esriGeometryPoint",
+             "sourceSpatialReference": {"wkid": 102100, ...}          
+          },
+         "https://someServer/arcgis/rest/services/airfields/catalog/MapServer/1": {
+             "id": 1,
+             "name": "Airfields - (Airstrip)", ...
+          }, ...
+         }
+  ```
+
+### Get data source metadata and schema:
+
+Get the full metadata and schema for each data source (features classe/layer) in the data-sources definition dictionary (ds). The return dictionary includes top level keys (data source URL's) with nested key value pairs that represent the full data source structure, properties, and metadata. 
+
+  ```python
+     ds_defs = grale.esri.get_rest_data_source_defs( ds,
+                                                     log=log2, 
+                                                     showMessages=False
+                                                   )
+     print(json.dumps(ds_defs, indent=4)) # pretty print the resutls                                    
+     >>>{
+          "https://someServer/arcgis/rest/services/airfields/catalog/MapServer/0": {
+              "id": 0,
+              "name": "Airfields - (Civil)", ...
+              "source_definition": {		
+                "fields": [
+                            {
+                                "name": "OBJECTID",
+                                "type": "esriFieldTypeOID",
+                                "alias": "OBJECTID",
+                                "domain": null
+                            },
+                            {
+                                "name": "Shape",
+                                "type": "esriFieldTypeGeometry",
+                                "alias": "Shape",
+                                "domain": null
+                            }, ...
+                          ]
+              }, ...
+             "capabilities": "Map,Query,Data",
+             "maxRecordCount": 1000,
+             "supportsStatistics": true,
+             "supportsAdvancedQueries": true,
+             "supportedQueryFormats": "JSON, AMF",
+          }, ...
+        }
+  ```
+  
 ## Other grale.esri methods:
   Use the python help() function for detailed documentation on each method. 
   
