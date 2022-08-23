@@ -116,7 +116,7 @@
             "results":        ["list of detailed response messages/results"],
             "elapsed_time":   "elapsed time to complete the request cycle",
             "size":           "size of return object/data"
-            }
+            }, ...
         }
   ```
     
