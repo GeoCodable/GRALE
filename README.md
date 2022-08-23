@@ -163,7 +163,7 @@
               'results': 'ResponseText:{"error":{"code":500,"message":"json","details":[]}}',
               'elapsed_time': '1061.342(ms)',
               'size': '52(B)',
-            }, ...
+            },
           }
   ```
   
