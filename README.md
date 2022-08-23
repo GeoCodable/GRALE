@@ -52,7 +52,7 @@
 
   #### Download GeoJSON files to a directory:
   
-   * Conserve memmory and compress (gzip) results by uising low_memory=True
+   * Conserve memory and compress (gzip) results by using low_memory=True
    * Set the max records size to 500 for each request/output file
   
   ```python
@@ -107,14 +107,14 @@
        {
         "processId": 
             {
-            "grale_uuid":     "GRALE full ID, concat of the of the ppid  & pid",
-            "ppid":           "unique parent process ID for an iterated request(per data source)", 
-            "pid":            "unique process ID for the request iteration (per chunk)", 
+            "grale_uuid":     "GRALE full ID, concatenation of the of ppid  & pid",
+            "ppid":           "unique Parent Process ID for an iterated request(per data source)", 
+            "pid":            "unique Process ID for the request iteration (per chunk)", 
             "utc_timestamp":  "UTC start timestamp of a request instance", 
             "parameters":     "parameters sent to a request instance",   
             "status":         "status category for a request instance",  
             "results":        ["list of detailed response messages/results"],
-            "elapsed_time":   "elapsed time to complete the request instance",
+            "elapsed_time":   "elapsed time to complete the request cycle",
             "size":           "size of return object/data"
             }
         }
