@@ -54,14 +54,17 @@ The GRALE module contains functions and classes to standardize requests sent to 
 #### File naming conventions:
 Files output from grale.esri.get_wfs_download use a standard naming convention to assist in ETL workflows and tracking data lineage. 
 - Example output file name:
-  - _'airport-runway_._22022-08-24t130844_._1000_._4737ff5b-ab4c-44b3-a257-5d8343484cb5_._b4f6eb10-7bd4-4779-9b51-e7540d47b520.geojson'_
-  - Example output file name break out: 
-    - Naming component delimiter: '_._'
-    - Data source name: airport-runway
-    - UTC date/time of request: 22022-08-24t130844
-    - Chunk/record ending range: 1000
-    - Parent process ID (ppid): 4737ff5b-ab4c-44b3-a257-5d8343484cb5
-    - Process ID (pid): b4f6eb10-7bd4-4779-9b51-e7540d47b520
+  ```python
+  'airports_._22022-08-24t130844_._1000_._4737ff5b-ab4c-44b3-a257-5d8343484cb5_._b4f6eb10-7bd4-4779-9b51-e7540d47b520.geojson'
+  ```
+  
+  - Example break out: 
+    - Naming component delimiter:  _'\_.\_'_
+    - Featurclass/layer name:  _'airports'_
+    - UTC date/time of request to seconds:  _'22022-08-24t130844'_
+    - Chunk/record set end of range:  _'1000'_
+    - [Parent process ID (ppid)](#log-structure):  _'4737ff5b-ab4c-44b3-a257-5d8343484cb5'_
+    - [Process ID (pid)](#log-structure):  _'b4f6eb10-7bd4-4779-9b51-e7540d47b520'_
   
 ### Advanced Feature Requests:
 
