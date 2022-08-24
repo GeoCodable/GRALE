@@ -28,7 +28,8 @@ The GRALE module contains functions and classes to standardize requests sent to 
 #### Download GeoJSON files to a directory:
 
 - Perform a _paginated_, _multi-threaded_ request for _all_ features/records, save the files in the output directory and return a _list_ of the GeoJSON file paths
-
+- See [File naming conventions](#file-naming-conventions) for documentation on output file names
+- 
 ```python
   url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
   out_dir = r'D:\downloads'
@@ -50,12 +51,25 @@ The GRALE module contains functions and classes to standardize requests sent to 
   grale.GRALE_LOG.log
 ```
 
+#### File naming conventions:
+Files output from grale.esri.get_wfs_download use a standard naming convention to assist in ETL workflows and tracking data lineage. 
+- Example output file name:
+  - _'airport-runway_._22022-08-24t130844_._1000_._4737ff5b-ab4c-44b3-a257-5d8343484cb5_._b4f6eb10-7bd4-4779-9b51-e7540d47b520.geojson'_
+  - Example output file name break out: 
+    - Naming component delimiter: '_._'
+    - Data source name: airport-runway
+    - UTC date/time of request: 22022-08-24t130844
+    - Chunk/record ending range: 1000
+    - Parent process ID (ppid): 4737ff5b-ab4c-44b3-a257-5d8343484cb5
+    - Process ID (pid): b4f6eb10-7bd4-4779-9b51-e7540d47b520
+  
 ### Advanced Feature Requests:
 
 #### Download GeoJSON files to a directory:
 
 - Conserve memory and compress (gzip) results by using low_memory=True
 - Set the max records size to 500 for each request/output file
+- See [File naming conventions](#file-naming-conventions) for documentation on output file names
 
 ```python
   url = r'https://someServer/arcgis/rest/services/transportation/MapServer/2'
