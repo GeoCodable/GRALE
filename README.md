@@ -27,7 +27,7 @@ The GRALE module contains functions and classes to standardize requests sent to 
 
 #### Download GeoJSON files to a directory:
 
-_Perform a paginated, multi-threaded request for all features/records, return a list of output files_
+- Perform a _paginated_, _multi-threaded_ request for _all_ features/records, save the files in the output directory and return a _list_ of the GeoJSON file paths
 
 ```python
   url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
@@ -37,7 +37,7 @@ _Perform a paginated, multi-threaded request for all features/records, return a 
 
 #### Get a list of GeoJSON objects:
 
-_Perform a paginated, multi-threaded request for all features/records, return a list of output GeoJSON objects_
+- Perform a _paginated_, _multi-threaded_ request for _all_ features/records, return a _list_ of output GeoJSON objects
 
 ```python
   url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
@@ -69,8 +69,8 @@ _Perform a paginated, multi-threaded request for all features/records, return a 
                                        log=None,           # default to grale.GRALE_LOG.log, optional
                                        chunk_size=500,     # max of request 500 records or the API max request size, optional
                                        max_workers=None,   # default (Python 3.5+) # of processors on the machine X by 5, optional
-                                       low_memory=False,   # True, output compressed GEOJSON files, optional
-                                       cleanup=True)       # True, clean up low memory temp files
+                                       low_memory=True,    # True, output compressed GEOJSON files, optional
+                                       cleanup=True)       # True, clean up low memory temp folder and files
   grale.GRALE_LOG.log   # view the request/result log
   gdf = grale.geojsons_to_df( files,                       # create a single geopandas dataframe from the list of GeoJSON files
                               df_type='GeoDataFrame')
