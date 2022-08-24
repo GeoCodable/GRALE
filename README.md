@@ -11,7 +11,7 @@
 
 ## Description:
 
-The GRALE module contains functions and classes to standardize requests sent to geospatial REST API’s. Response data, metadata capture, and logging information are standardized to create efficiencies as a preliminary step in ETL workflows that involve geospatial REST API’s. Advanced options are available to optimize speed and memory usage in the extraction phase of ETL workflows. Options include multi-threaded request/response cycles, ‘low memory’ options to reduce memory usage/errors and storage capacity required for outputs, in conjunction with pkcs12 support. Output GeoJSON objects contain two additional keys named ‘request_metadata’ and ‘request_logging’. These additional keys extend the GeoJSON structure to provide logging information and metadata that can increase efficiencies when used as part of a larger extract, transform, and load (ETL) workflow.
+The GRALE module contains functions and classes to standardize requests sent to geospatial REST API’s. Response data, metadata, and logging information are standardized to create efficiencies among extract, transform, and load (ETL) workflows involving geospatial REST API’s.  As part of the Extract phase of ETL, the GRALE module can provide source data structure metadata, error tracing, and data lineage information for data pipelines. Advanced options are available to optimize speed and memory usage. Options include multi-threaded request/response cycles, options to optimize memory usage/storage and pkcs12 requests support.
 
 **_Note: Capabilities are limited to GET requests on ArcGIS REST API feature and map services at this time._**
 
@@ -29,7 +29,8 @@ The GRALE module contains functions and classes to standardize requests sent to 
 
 - Perform a _paginated_, _multi-threaded_ request for _all_ features/records, save the files in the output directory and return a _list_ of the GeoJSON file paths
 - See [File naming conventions](#file-naming-conventions) for documentation on output file names
-- 
+-
+
 ```python
   url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
   out_dir = r'D:\downloads'
@@ -52,20 +53,23 @@ The GRALE module contains functions and classes to standardize requests sent to 
 ```
 
 #### File naming conventions:
-Files output from grale.esri.get_wfs_download use a standard naming convention to assist in ETL workflows and tracking data lineage. 
+
+File outputs from grale.esri.get_wfs_download use a standard naming convention to assist in ETL workflows including tracking data lineage.
+
 - Example output file name:
+
   ```python
   'airports_._22022-08-24t130844_._1000_._4737ff5b-ab4c-44b3-a257-5d8343484cb5_._b4f6eb10-7bd4-4779-9b51-e7540d47b520.geojson'
   ```
-  
-  - Example break out: 
-    - Naming component delimiter:  _'\_.\_'_
-    - Featurclass/layer name:  _'airports'_
-    - UTC date/time of request to seconds:  _'22022-08-24t130844'_
-    - Chunk/recordset end range:  _'1000'_
-    - [Parent process ID (ppid)](#log-structure):  _'4737ff5b-ab4c-44b3-a257-5d8343484cb5'_
-    - [Process ID (pid)](#log-structure):  _'b4f6eb10-7bd4-4779-9b51-e7540d47b520'_
-  
+
+  - Example break out:
+    - Naming component delimiter: _'\_.\_'_
+    - Featurclass/layer name: _'airports'_
+    - UTC date/time of request to seconds: _'22022-08-24t130844'_
+    - Chunk/recordset end range: _'1000'_
+    - [Parent process ID (ppid)](#log-structure): _'4737ff5b-ab4c-44b3-a257-5d8343484cb5'_
+    - [Process ID (pid)](#log-structure): _'b4f6eb10-7bd4-4779-9b51-e7540d47b520'_
+
 ### Advanced Feature Requests:
 
 #### Download GeoJSON files to a directory:
@@ -194,7 +198,7 @@ GRALE functions which return data to memory or files, employ a modified (RFC 794
   - **_'request_logging'_** which retains a list of logging data associated with the returned data from each request.
   - Can be **_joined_** to feature data records via the **_'grale_uuid'_**
   - **_'request_metadata'_** which contains a list of the full ESRI data source metadata.
-  - Can be **_joined_** to feature data records and request*logging via the \*\**'ppid'\_\*\*
+  - Can be **_joined_** to feature data records and request\*logging via the \*\*\*'ppid'\_\*\*
   - The ESRI REST Metadata includes, but is NOT limited to
     - columns names, aliases, and data types
     - allowed value known as domains
