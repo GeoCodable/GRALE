@@ -11,7 +11,7 @@
 
 ## Description:
 
-The GRALE module contains functions and classes to standardize requests sent to geospatial REST API’s. Response data, metadata, and logging information are standardized to create efficiencies among extract, transform, and load (ETL) workflows involving geospatial REST API’s.  As part of the Extract phase of ETL, the GRALE module can provide source data structure metadata, error tracing, and data lineage information for data pipelines. Advanced options are available to optimize speed and memory usage. Options include multi-threaded request/response cycles, options to optimize memory usage/storage and pkcs12 requests support.
+The GRALE module contains functions and classes to standardize requests sent to geospatial REST API’s. Response data, [metadata, and logging information](#logging-and-data-lineage) are standardized to create efficiencies among extract, transform, and load (ETL) workflows involving geospatial REST API’s.  As part of the Extract phase of ETL, the GRALE module can provide source [data structure metadata, error tracing, and data lineage](#logging-and-data-lineage) information for data pipelines. [Advanced options](#advanced-feature-requests) are available to optimize speed and memory usage. Options include multi-threaded request/response cycles, options to optimize memory usage/storage and pkcs12 requests support.
 
 **_Note: Capabilities are limited to GET requests on ArcGIS REST API feature and map services at this time._**
 
@@ -29,7 +29,6 @@ The GRALE module contains functions and classes to standardize requests sent to 
 
 - Perform a _paginated_, _multi-threaded_ request for _all_ features/records, save the files in the output directory and return a _list_ of the GeoJSON file paths
 - See [File naming conventions](#file-naming-conventions) for documentation on output file names
--
 
 ```python
   url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
