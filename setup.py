@@ -42,11 +42,12 @@ setuptools.setup(
 
                     ## Python 3 Standard Library Members 
                     ##-----------------------------------------                        
-                    'sys', 
-                    'os', 
-                    'datetime', 
-                    're', 
-                    'shutil', 
+                    #'sys', 
+                    #'os', 
+                    #'datetime', 
+                    #'re', 
+                    #'shutil', 
+                    ##-----------------------------------------
                     'requests',  
                     'urllib', 
                     'urllib3',
@@ -60,6 +61,6 @@ setuptools.setup(
                     'pandas', 
                     'geopandas', 
                     'shapely'
-                    ##-----------------------------------------
+                    
                 ]
     )
