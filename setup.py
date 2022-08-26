@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='grale',                           # name of the package
-    version='0.0.3',                        # release version
+    version='0.0.4',                        # release version
     author='GeoCodable',                    # org/author
     description=\
         '''
@@ -39,28 +39,11 @@ setuptools.setup(
     py_modules=['grale'],                   # name of the python package
     package_dir={'':'src'},                 # directory of the source code of the package
     install_requires=[                      # package dependencies
-
-                    ## Python 3 Standard Library Members 
-                    ##-----------------------------------------                        
-                    #'sys', 
-                    #'os', 
-                    #'datetime', 
-                    #'re', 
-                    #'shutil', 
-                    ##-----------------------------------------
-                    'requests',  
-                    'urllib', 
-                    'urllib3',
-                    'uuid', 
-                    'json', 
-                    'gzip',  
-                    'threading', 
-                    'concurrent',
-                    'requests_pkcs12', 
-                    'arcgis2geojson', 
-                    'pandas', 
-                    'geopandas', 
-                    'shapely'
-                    
-                ]
+                        'urllib3>=1.26.12',
+                        'requests_pkcs12>=1.14', 
+                        'arcgis2geojson>=3.0.1', 
+                        'shapely>=1.8.4'
+                        'geopandas>=0.11.1', 
+                        'pandas>=1.4.3'
+                    ]
     )
