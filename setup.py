@@ -42,24 +42,24 @@ setuptools.setup(
 
                     ## Python 3 Standard Library Members 
                     ##-----------------------------------------                        
-                    sys, 
-                    os, 
-                    datetime, 
-                    re, 
-                    shutil, 
-                    requests,  
-                    urllib, 
-                    urllib3,
-                    uuid, 
-                    json, 
-                    gzip,  
-                    threading, 
-                    concurrent,
-                    requests_pkcs12, 
-                    arcgis2geojson, 
-                    pandas, 
-                    geopandas, 
-                    shapely
+                    'sys', 
+                    'os', 
+                    'datetime', 
+                    're', 
+                    'shutil', 
+                    'requests',  
+                    'urllib', 
+                    'urllib3',
+                    'uuid', 
+                    'json', 
+                    'gzip',  
+                    'threading', 
+                    'concurrent',
+                    'requests_pkcs12', 
+                    'arcgis2geojson', 
+                    'pandas', 
+                    'geopandas', 
+                    'shapely'
                     ##-----------------------------------------
                 ]
     )
