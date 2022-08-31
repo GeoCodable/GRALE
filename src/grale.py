@@ -5,12 +5,12 @@ __name__            = 'grale'
 __alias__           = 'grale'
 __author__          = 'GeoCodable'
 __credits__         = ['GeoCodable']
-__version__         = '0.0.4'
+__version__         = '0.0.1'
 __maintainer__      = 'GeoCodable'
 __email__           = 'https://github.com/GeoCodable'
 __status__          = 'Alpha'
 __create_date__     = '20220118'  
-__version_date__    = '20220126'
+__version_date__    = '20220123'
 __info__ = \
     '''
     Description:
@@ -48,7 +48,6 @@ from shutil import rmtree
 import threading
 
 import pandas as pd
-import geopandas as gpd
 from shapely.geometry import shape 
 #------------------------------------------------------------------------------                    
 #------------------------------------------------------------------------------ 
@@ -650,9 +649,20 @@ def geojsons_to_df(in_geojsons, df_type='DataFrame'):
     gj = json.loads(merged)
 
     if df_type =='GeoDataFrame':
-        return gpd.GeoDataFrame.from_features(gj["features"])        
+        try: 
+            if 'geopandas' not in sys.modules:
+                import geopandas
+            return geopandas.GeoDataFrame.from_features(gj["features"])  
+        except:
+            _print('''Warning: GeoPandas is not installed properly!
+                      Please ensure GeoPandas is installed then try to 
+                      import the package directly. If errors persist,
+                      attempt to reinstall GeoPandas. 
+                      Defaulting data to pandas.dataframe''')
+                      df_type ='DataFrame'
+
             
-    elif df_type =='DataFrame':
+    if df_type =='DataFrame':
         df_rows = [ {**gj['features'][i]['properties'], 
                      **{'geometry':shape(gj['features'][i]['geometry']).wkt}
                     } 
@@ -2164,4 +2174,4 @@ THREAD_LOCAL    = threading.local()
 MESSAGE_LOCK    = threading.Lock()
 GRALE_SESSION   = sessionWrapper()
 GRALE_LOG       = graleReqestLog()
-#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------     
