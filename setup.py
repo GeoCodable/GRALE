@@ -42,7 +42,7 @@ setuptools.setup(
                         'urllib3>=1.26.8',
                         'requests_pkcs12>=1.14', 
                         'arcgis2geojson>=3.0.1', 
-                        'geopandas>=0.10.2', 
+                        'geopandas>=0.11.1', 
                         'pandas>=1.4.1'
                     ]
     )
