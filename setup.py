@@ -43,10 +43,6 @@ setuptools.setup(
                         'requests_pkcs12>=1.14', 
                         'arcgis2geojson>=3.0.1',
                         'pandas >= 1.0.0',
-                        'shapely >= 1.7, < 2',
-                        'fiona >= 1.8',
-                        'pyproj >= 2.6.1.post1',
-                        'packaging',
-                        'geopandas>=0.11.1', 
+                        'shapely >= 1.7, < 2'
                     ]
     )
