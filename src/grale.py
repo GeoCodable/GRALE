@@ -654,13 +654,12 @@ def geojsons_to_df(in_geojsons, df_type='DataFrame'):
                 import geopandas
             return geopandas.GeoDataFrame.from_features(gj["features"])  
         except:
-            _print('''Warning: GeoPandas is not installed properly!
+            _print('''Warning: GeoPandas install is not available!
                       Please ensure GeoPandas is installed then try to 
                       import the package directly. If errors persist,
                       attempt to reinstall GeoPandas. 
                       Defaulting data to pandas.dataframe''')
                       df_type ='DataFrame'
-
             
     if df_type =='DataFrame':
         df_rows = [ {**gj['features'][i]['properties'], 
