@@ -39,10 +39,10 @@ setuptools.setup(
     py_modules=['grale'],                   # name of the python package
     package_dir={'':'src'},                 # directory of the source code of the package
     install_requires=[                      # package dependencies
-                        'urllib3>=1.26.12',
+                        'urllib3>=1.26.8',
                         'requests_pkcs12>=1.14', 
                         'arcgis2geojson>=3.0.1', 
-                        'geopandas>=0.11.1', 
-                        'pandas>=1.4.3'
+                        'geopandas>=0.10.2', 
+                        'pandas>=1.4.1'
                     ]
     )
