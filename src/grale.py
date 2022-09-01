@@ -10,7 +10,7 @@ __maintainer__      = 'GeoCodable'
 __email__           = 'https://github.com/GeoCodable'
 __status__          = 'Alpha'
 __create_date__     = '20220118'  
-__version_date__    = '20220123'
+__version_date__    = '20220901'
 __info__ = \
     '''
     Description:
