@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='grale',                           # name of the package
-    version='0.0.4',                        # release version
+    version='0.0.5',                        # release version
     author='GeoCodable',                    # org/author
     description=\
         '''
