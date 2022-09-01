@@ -93,7 +93,7 @@ File outputs from grale.ESRI.get_wfs_download use a standard naming convention t
                                        cleanup=True)       # True, clean up low memory temp folder and files
   grale.GRALE_LOG.log   # view the request/result log
   gdf = grale.geojsons_to_df( files,                       # create a single geopandas dataframe from the list of GeoJSON files
-                              df_type='GeoDataFrame')
+                              df_type='GeoDataFrame')      # Note: GeoPandas must be installed, otherwise a pandas dataframe will be returned
 ```
 
 #### Get a list of GeoJSON objects:
