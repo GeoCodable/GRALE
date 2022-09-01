@@ -7,7 +7,7 @@
 - [Logging and data lineage](#logging-and-data-lineage)
 - [Custom requests sessions](#custom-requests-sessions)
 - [Profiling ArcGIS REST API's](#profiling-arcgis-rest-apis)
-- [Other grale.esri methods](#other-graleesri-methods)
+- [Other grale.ESRI methods](#other-graleesri-methods)
 
 ## Description:
 
@@ -33,7 +33,7 @@ The GRALE module contains functions and classes to standardize requests sent to 
 ```python
   url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
   out_dir = r'D:\downloads'
-  files = grale.esri.get_wfs_download(url=url, out_dir=out_dir)
+  files = grale.ESRI.get_wfs_download(url=url, out_dir=out_dir)
 ```
 
 #### Get a list of GeoJSON objects:
@@ -42,7 +42,7 @@ The GRALE module contains functions and classes to standardize requests sent to 
 
 ```python
   url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
-  geojsons = grale.esri.get_wfs_geojsons(url=url)
+  geojsons = grale.ESRI.get_wfs_geojsons(url=url)
 ```
 
 #### View request log data:
@@ -53,7 +53,7 @@ The GRALE module contains functions and classes to standardize requests sent to 
 
 #### File naming conventions:
 
-File outputs from grale.esri.get_wfs_download use a standard naming convention to assist in ETL workflows including tracking data lineage.
+File outputs from grale.ESRI.get_wfs_download use a standard naming convention to assist in ETL workflows including tracking data lineage.
 
 - Example output file name:
 
@@ -83,7 +83,7 @@ File outputs from grale.esri.get_wfs_download use a standard naming convention t
              'outSR':4326,           # set the output spatial reference to WGS-84
             }
   out_dir = r'D:\downloads'
-  files = grale.esri.get_wfs_download( url=url,            # request url, required
+  files = grale.ESRI.get_wfs_download( url=url,            # request url, required
                                        out_dir=out_dir,    # select an output directory, required
                                        headers=headers,    # request query parameters, optional
                                        log=None,           # default to grale.GRALE_LOG.log, optional
@@ -108,7 +108,7 @@ File outputs from grale.esri.get_wfs_download use a standard naming convention t
              'outSR':4326,           # set the output spatial reference to WGS-84
              'resultOffset': 7000,   # skip over requesting the first 6999 records
                     }
-  geojsons = grale.esri.get_wfs_geojsons( url=url,            # request url, required
+  geojsons = grale.ESRI.get_wfs_geojsons( url=url,            # request url, required
                                           headers=headers,    # request query parameters, optional
                                           log=log,            # GraleReqestLog logging object, optional
                                           chunk_size=750,     # max chunk size/ record count per pull, optional
@@ -238,7 +238,7 @@ Setting GRALE_SESSION properties using [DataBricks Secrets](https://docs.databri
   grale.GRALE_SESSION.pkcs12_filename = dbutils.secrets.get(scope="secrets-scope", key="myCert")
   grale.GRALE_SESSION.pkcs12_password = dbutils.secrets.get(scope="secrets-scope", key="myPswd")
   url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
-  geojsons = grale.esri.get_wfs_geojsons(url=url)
+  geojsons = grale.ESRI.get_wfs_geojsons(url=url)
 ```
 
 Creating a new custom session:
@@ -246,7 +246,7 @@ Creating a new custom session:
 ```python
   grale.GRALE_SESSION = grale.sessionWrapper(timeout = (120), max_retries=10)
   url = r'https://someServer/arcgis/rest/services/transportation/MapServer/1'
-  geojsons = grale.esri.get_wfs_geojsons(url=url)
+  geojsons = grale.ESRI.get_wfs_geojsons(url=url)
 ```
 
 ## Profiling ArcGIS REST API's
@@ -261,7 +261,7 @@ Query an ArcGIS REST by service type(s) and within a named subdirectory to retur
    dirs = ['airfields']                            # list the subdirectory(s), use an empty list to query the entire the server
 
    store the services definition dictionary within sd
-   sd = grale.esri.get_rest_services( url=url,
+   sd = grale.ESRI.get_rest_services( url=url,
                                       service_types=service_types,
                                       log=None,
                                       showMessages=True,
@@ -285,7 +285,7 @@ Query an ArcGIS REST by service type(s) and within a named subdirectory to retur
 Query data sources (features classes/layers) within the services definition dictionary (sd). The return dictionary includes top level keys (data source URL's) with nested key value pairs that represent the data source level properties.
 
 ```python
-   ds = grale.esri.get_rest_data_sources(sd)
+   ds = grale.ESRI.get_rest_data_sources(sd)
    print(json.dumps(ds, indent=4)) # pretty print the results
    >>>{
        "https://someServer/arcgis/rest/services/airfields/catalog/MapServer/0": {
@@ -311,7 +311,7 @@ Query data sources (features classes/layers) within the services definition dict
 Get the full metadata and schema for each data source (features class/layer) in the data-sources definition dictionary (ds). The return dictionary includes top level keys (data source URL's) with nested key value pairs that represent the full data source structure, properties, and metadata.
 
 ```python
-   ds_defs = grale.esri.get_rest_data_source_defs( ds,
+   ds_defs = grale.ESRI.get_rest_data_source_defs( ds,
                                                    log=log2,
                                                    showMessages=False
                                                  )
@@ -345,7 +345,7 @@ Get the full metadata and schema for each data source (features class/layer) in 
       }
 ```
 
-## Other grale.esri methods:
+## Other grale.ESRI methods:
 
 Use the python help() function for detailed documentation on each method.
 
