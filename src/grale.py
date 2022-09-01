@@ -5,7 +5,7 @@ __name__            = 'grale'
 __alias__           = 'grale'
 __author__          = 'GeoCodable'
 __credits__         = ['GeoCodable']
-__version__         = '0.0.4'
+__version__         = '0.0.5'
 __maintainer__      = 'GeoCodable'
 __email__           = 'https://github.com/GeoCodable'
 __status__          = 'Alpha'
@@ -33,11 +33,12 @@ __info__ = \
     '''
 __all__         = [ 'THREAD_LOCAL', 'MESSAGE_LOCK', 
                     'GRALE_SESSION', 'GRALE_LOG',
-                    'geojsons_to_df', 'merge_geojsons', 
-                    'parse_qs', 'read_geojson', 
-                    'read_geojsons', 'graleReqestLog',
-                    'sessionWrapper', 'esri'
-                   ]
+                    'ESRI','geojsons_to_df', 
+                    'merge_geojsons', 'parse_qs', 
+                    'read_geojson', 'read_geojsons', 
+                    'graleReqestLog', 'sessionWrapper', 
+                    'esri'
+                  ]
 #------------------------------------------------------------------------------ 
 import sys, os, re, uuid, json, gzip, requests, requests_pkcs12, urllib3
 from concurrent.futures import ThreadPoolExecutor
