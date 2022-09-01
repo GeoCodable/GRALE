@@ -643,6 +643,14 @@ def geojsons_to_df(in_geojsons, df_type='DataFrame'):
         Option to return a pandas 'DataFrame' type or
         a geopandas 'GeoDataFrame' type.  Allowed 
         values include 'DataFrame' and 'GeoDataFrame'
+        **Note: Due to the complexity of installing 
+            the GeoPandas package correctly, it was not 
+            set as a direct dependency of GRALE. Instead,
+            it must be installed separately from GRALE. 
+            If Geopandas is not installed/available and 
+            df_type is set to 'GeoDataFrame', a warning 
+            will be printed and a regular pandas 
+            (non-spatial) DataFrame will be returned.
         Default, 'DataFrame'
         
     """
