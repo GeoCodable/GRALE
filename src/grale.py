@@ -2173,4 +2173,5 @@ THREAD_LOCAL    = threading.local()
 MESSAGE_LOCK    = threading.Lock()
 GRALE_SESSION   = sessionWrapper()
 GRALE_LOG       = graleReqestLog()
+ESRI            = esriRestApi()
 #------------------------------------------------------------------------------     
